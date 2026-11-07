@@ -128,8 +128,15 @@ export const App: React.FC = () => {
       <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 flex items-center justify-center font-black text-lg text-white shadow-lg shadow-indigo-600/30">
-              NA
+            <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-white p-1 flex items-center justify-center shadow-md shadow-slate-950/40 shrink-0">
+              <img
+                src="https://acropole.org.br/wp-content/uploads/2026/02/NA_logo_escola_vetor.png"
+                alt="Logotipo Nova Acrópole"
+                className="h-full w-full object-contain"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = './logo.png';
+                }}
+              />
             </div>
             <div>
               <h1 className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
