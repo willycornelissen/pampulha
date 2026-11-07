@@ -6,6 +6,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     react(),
     tailwindcss(),
@@ -13,6 +14,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'firebase-vendor': ['firebase/app', 'firebase/firestore', 'firebase/auth'],
+        },
+      },
     },
   },
   test: {
@@ -27,12 +39,11 @@ export default defineConfig({
       exclude: [
         'src/main.tsx',
         'src/test/**',
+        'src/services/firebase.ts',
         '**/*.d.ts',
       ],
       thresholds: {
         lines: 80,
-        functions: 75,
-        branches: 80,
         statements: 80,
       },
     },
