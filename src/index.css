@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@source not "../.agents";
+@source not "../**/*.md";
+@source "../index.html";
+@source "./**/*.{js,ts,jsx,tsx,html}";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+}
