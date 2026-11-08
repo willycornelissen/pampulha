@@ -235,7 +235,7 @@ export const App: React.FC = () => {
                 Calendário de Atividades
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
-                Confira as palestras públicas gratuitas, aulas inaugurais do Curso de Filosofia Prática e ações culturais abertas na sede Pampulha.
+                Confira as palestras, as aulas do Curso de Filosofia, as atividades culturais e as ações de voluntariado promovidas pela Sede Pampulha da Nova Acrópole.
               </p>
             </div>
 
