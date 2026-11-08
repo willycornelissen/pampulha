@@ -268,10 +268,10 @@ export const App: React.FC = () => {
                 Informativo &bull; Sede Pampulha
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Últimas Notícias e Artigos
+                Últimas Notícias
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
-                Fique por dentro dos acontecimentos, projetos sociais de voluntariado e artigos de reflexão filosófica da nossa comunidade.
+                Confira as últimas notícias, os acontecimentos e os eventos nos quais a Nova Acrópole Pampulha esteve presente.
               </p>
             </div>
 

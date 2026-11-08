@@ -35,7 +35,7 @@ describe('App Principal - Pampulha', () => {
     await user.click(newsTab);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { level: 2, name: /últimas notícias e artigos/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 2, name: /últimas notícias/i })).toBeInTheDocument();
       expect(screen.getByText(/abre novas turmas de filosofia prática/i)).toBeInTheDocument();
     });
   });
@@ -100,7 +100,7 @@ describe('App Principal - Pampulha', () => {
     await user.click(newsNavBtn);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { level: 2, name: /últimas notícias e artigos/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 2, name: /últimas notícias/i })).toBeInTheDocument();
     });
 
     const calendarNavBtn = screen.getByRole('button', { name: /calendário/i });
