@@ -5,7 +5,6 @@ import {
   Lock,
   Sparkles,
   MapPin,
-  Clock,
   RefreshCw,
 } from 'lucide-react';
 import { PampulhaEvent, EventFilterOptions } from './types/event';
@@ -349,11 +348,7 @@ export const App: React.FC = () => {
               <ul className="space-y-2 text-xs text-stone-300">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-[#f39300] shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>Av. Portugal, Região da Pampulha, Belo Horizonte - MG</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#f39300] shrink-0" aria-hidden="true" />
-                  <span>Segunda a Sexta: 14h às 21h &bull; Sábados: 09h às 13h</span>
+                  <span>JL Mall, Rua Castelo da Beira, 299, loja23</span>
                 </li>
               </ul>
             </div>
