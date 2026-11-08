@@ -61,7 +61,9 @@ export const NewsFormModal: React.FC<NewsFormModalProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
+    const isImageByMime = file.type.startsWith('image/');
+    const isImageByExt = /\.(jpe?g|png|webp|gif|bmp|svg|heic|heif)$/i.test(file.name);
+    if (!isImageByMime && !isImageByExt) {
       setImageUploadError('Por favor, selecione um arquivo de imagem válido (JPG, PNG, WebP).');
       return;
     }
@@ -254,7 +256,7 @@ export const NewsFormModal: React.FC<NewsFormModalProps> = ({
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/*"
                 onChange={handleFileSelect}
                 className="hidden"
                 id="news-file-upload"
@@ -270,7 +272,7 @@ export const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 {isUploadingImage ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin text-[#086357] dark:text-[#009485]" />
-                    <span>Comprimindo e enviando foto...</span>
+                    <span>Otimizando foto...</span>
                   </>
                 ) : (
                   <>
@@ -281,7 +283,7 @@ export const NewsFormModal: React.FC<NewsFormModalProps> = ({
               </label>
 
               <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                Compressão automática para carregamento rápido
+                Compressão instantânea (~60 KB) para carregamento rápido
               </span>
             </div>
 

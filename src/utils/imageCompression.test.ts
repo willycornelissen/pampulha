@@ -25,7 +25,14 @@ describe('imageCompression utils', () => {
     it('rejeita arquivos que não sejam do tipo image/*', async () => {
       const textFile = new File(['conteudo texto'], 'documento.txt', { type: 'text/plain' });
 
-      await expect(compressImage(textFile)).rejects.toThrow('O arquivo selecionado não é uma imagem válida.');
+      await expect(compressImage(textFile)).rejects.toThrow('O arquivo selecionado não é uma imagem suportada.');
+    });
+
+    it('rejeita arquivos com mais de 25MB', async () => {
+      const largeFile = new File([''], 'imagem-gigante.jpg', { type: 'image/jpeg' });
+      Object.defineProperty(largeFile, 'size', { value: 30 * 1024 * 1024 });
+
+      await expect(compressImage(largeFile)).rejects.toThrow('A imagem é muito grande');
     });
 
     it('processa e retorna dataUrl para arquivos de imagem válidos', async () => {
