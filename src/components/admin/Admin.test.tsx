@@ -164,6 +164,86 @@ describe('Componentes Administrativos', () => {
       );
       expect(handleClose).toHaveBeenCalled();
     });
+
+    it('exibe pré-visualização quando há imagem e permite remover', async () => {
+      const user = userEvent.setup();
+      const handleSave = vi.fn();
+      const handleClose = vi.fn();
+      const newsWithImage: NewsItem = {
+        ...mockNews,
+        imageUrl: 'https://exemplo.com/foto.jpg',
+      };
+
+      render(
+        <NewsFormModal
+          isOpen={true}
+          news={newsWithImage}
+          onClose={handleClose}
+          onSave={handleSave}
+        />
+      );
+
+      const previewImg = screen.getByRole('img', { name: /pré-visualização da notícia/i });
+      expect(previewImg).toBeInTheDocument();
+      expect(previewImg).toHaveAttribute('src', 'https://exemplo.com/foto.jpg');
+
+      const removeBtn = screen.getByRole('button', { name: /remover foto/i });
+      await user.click(removeBtn);
+
+      expect(screen.queryByRole('img', { name: /pré-visualização da notícia/i })).not.toBeInTheDocument();
+
+      const submitBtn = screen.getByRole('button', { name: /salvar notícia/i });
+      await user.click(submitBtn);
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          imageUrl: undefined,
+        })
+      );
+    });
+
+    it('permite selecionar um arquivo de imagem para upload', async () => {
+      const user = userEvent.setup();
+      const handleSave = vi.fn();
+      const handleClose = vi.fn();
+
+      render(
+        <NewsFormModal
+          isOpen={true}
+          news={null}
+          onClose={handleClose}
+          onSave={handleSave}
+        />
+      );
+
+      const titleInput = screen.getByLabelText(/título da notícia/i);
+      const summaryInput = screen.getByLabelText(/resumo breve/i);
+      const contentInput = screen.getByLabelText(/conteúdo completo/i);
+      await user.type(titleInput, 'Notícia com Upload');
+      await user.type(summaryInput, 'Resumo com upload');
+      await user.type(contentInput, 'Conteúdo com upload');
+
+      const fileInput = document.querySelector<HTMLInputElement>('#news-file-upload');
+      expect(fileInput).toBeInTheDocument();
+
+      const fakeFile = new File(['fake-image-bytes'], 'foto-pampulha.jpg', { type: 'image/jpeg' });
+      if (fileInput) {
+        await user.upload(fileInput, fakeFile);
+      }
+
+      const previewImg = await screen.findByRole('img', { name: /pré-visualização da notícia/i });
+      expect(previewImg).toBeInTheDocument();
+
+      const submitBtn = screen.getByRole('button', { name: /salvar notícia/i });
+      await user.click(submitBtn);
+
+      expect(handleSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Notícia com Upload',
+          imageUrl: expect.stringContaining('data:image/'),
+        })
+      );
+    });
   });
 
   describe('AdminDashboard', () => {

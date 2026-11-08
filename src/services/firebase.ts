@@ -1,6 +1,7 @@
 import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 import { getAuth, type Auth } from 'firebase/auth';
+import { getStorage, type FirebaseStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,20 +23,26 @@ export const isFirebaseConfigured = (): boolean => {
 let app: FirebaseApp | null = null;
 let db: Firestore | null = null;
 let auth: Auth | null = null;
+let storage: FirebaseStorage | null = null;
 
 if (isFirebaseConfigured()) {
   try {
     app = getApps().length > 0 ? getApps()[0]! : initializeApp(firebaseConfig);
     db = getFirestore(app);
     auth = getAuth(app);
+    if (firebaseConfig.storageBucket) {
+      storage = getStorage(app);
+    }
   } catch (error) {
     console.warn('Erro ao inicializar Firebase. Alternando para modo local:', error);
     app = null;
     db = null;
     auth = null;
+    storage = null;
   }
 }
 
 export const getFirestoreDb = (): Firestore | null => db;
 export const getFirebaseAuth = (): Auth | null => auth;
+export const getFirebaseStorage = (): FirebaseStorage | null => storage;
 export const getFirebaseApp = (): FirebaseApp | null => app;
