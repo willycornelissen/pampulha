@@ -7,6 +7,9 @@ import {
   Trash2,
   LogOut,
   Database,
+  Download,
+  Upload,
+  Info,
 } from 'lucide-react';
 import { AuthUser } from '../../types/auth';
 import { PampulhaEvent, EVENT_TYPE_LABELS } from '../../types/event';
@@ -77,6 +80,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
   };
 
+  const handleExportData = () => {
+    const backup = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      events,
+      news,
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `dados-pampulha-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const text = ev.target?.result as string;
+        const data = JSON.parse(text);
+        if (Array.isArray(data.events)) {
+          localStorage.setItem('pampulha_events', JSON.stringify(data.events));
+        }
+        if (Array.isArray(data.news)) {
+          localStorage.setItem('pampulha_news', JSON.stringify(data.news));
+        }
+        window.location.reload();
+      } catch (err) {
+        alert('Falha ao importar o arquivo. Certifique-se de que é um JSON exportado do painel.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="space-y-6">
       {/* Barra de Status do Painel Admin */}
@@ -112,13 +154,50 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             type="button"
             onClick={onLogout}
             aria-label="Sair do painel administrativo"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Sair</span>
           </button>
         </div>
       </div>
+
+      {/* Banner explicativo e ferramentas de sincronização quando em Modo Local */}
+      {!isConnectedToFirebase && (
+        <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+          <div>
+            <div className="flex items-center gap-1.5 font-bold text-amber-900 dark:text-amber-200">
+              <Info className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
+              <span>Modo Local: dados salvos exclusivamente no navegador deste dispositivo</span>
+            </div>
+            <p className="text-amber-800 dark:text-amber-300/90 mt-1">
+              Para que os eventos e notícias sejam compartilhados em tempo real entre o computador, o celular e todos os visitantes, configure o banco de dados online (Firebase Firestore). Você também pode exportar os dados daqui para importar no celular.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+            <button
+              type="button"
+              onClick={handleExportData}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm cursor-pointer transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Exportar Dados</span>
+            </button>
+            <label
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#086357] hover:bg-[#009485] text-white shadow-sm cursor-pointer transition-colors"
+            >
+              <Upload className="w-3.5 h-3.5" />
+              <span>Importar Dados</span>
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportData}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
+      )}
 
       {/* Navegação entre Abas do Admin */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-3">
