@@ -18,6 +18,7 @@ describe('App Principal - Pampulha', () => {
     render(<App />);
 
     expect(screen.getByRole('heading', { level: 1, name: /nova acrópole pampulha/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /diário da pampulha/i })).toBeInTheDocument();
     expect(screen.getByAltText(/logotipo nova acrópole/i)).toBeInTheDocument();
 
     await waitFor(() => {
@@ -58,6 +59,55 @@ describe('App Principal - Pampulha', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/painel de gestão pampulha/i)).toBeInTheDocument();
+    });
+  });
+
+  it('permite alternar entre os modos claro e escuro através da chave na tela principal', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    // Por padrão, inicia no modo escuro (aria-checked="true")
+    const themeSwitch = screen.getByRole('switch', { name: /modo escuro/i });
+    expect(themeSwitch).toBeInTheDocument();
+    expect(themeSwitch).toHaveAttribute('aria-checked', 'true');
+    expect(themeSwitch).toHaveAttribute('title', 'Alternar para modo claro');
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+
+    // Clica na chave para mudar para o modo claro
+    await user.click(themeSwitch);
+
+    expect(themeSwitch).toHaveAttribute('aria-checked', 'false');
+    expect(themeSwitch).toHaveAttribute('title', 'Alternar para modo escuro');
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
+    expect(localStorage.getItem('pampulha_theme')).toBe('light');
+
+    // Clica novamente para voltar ao modo escuro
+    await user.click(themeSwitch);
+
+    expect(themeSwitch).toHaveAttribute('aria-checked', 'true');
+    expect(themeSwitch).toHaveAttribute('title', 'Alternar para modo claro');
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+    expect(localStorage.getItem('pampulha_theme')).toBe('dark');
+  });
+
+  it('permite alternar entre Calendário e Notícias através da navegação principal', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByRole('heading', { level: 1, name: /diário da pampulha/i })).toBeInTheDocument();
+
+    const newsNavBtn = screen.getByRole('button', { name: /notícias/i });
+    await user.click(newsNavBtn);
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 2, name: /últimas notícias e artigos/i })).toBeInTheDocument();
+    });
+
+    const calendarNavBtn = screen.getByRole('button', { name: /calendário/i });
+    await user.click(calendarNavBtn);
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 2, name: /calendário de atividades/i })).toBeInTheDocument();
     });
   });
 });

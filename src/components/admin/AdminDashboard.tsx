@@ -80,29 +80,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   return (
     <div className="space-y-6">
       {/* Barra de Status do Painel Admin */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900 border border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold">
+          <div className="h-10 w-10 rounded-xl bg-[#086357]/10 dark:bg-[#086357]/30 text-[#086357] dark:text-[#5eead4] flex items-center justify-center font-bold">
             ADM
           </div>
           <div>
-            <h2 className="text-base font-bold text-white tracking-tight">
+            <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
               Painel de Gestão Pampulha
             </h2>
-            <p className="text-xs text-slate-400">
-              Conectado como <span className="text-slate-200 font-semibold">{user.email || user.displayName}</span>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Conectado como <span className="text-slate-800 dark:text-slate-200 font-semibold">{user.email || user.displayName}</span>
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           {isConnectedToFirebase ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               Firebase Firestore Ativo
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-950/80 text-amber-300 border border-amber-800/60">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
               <Database className="w-3.5 h-3.5" aria-hidden="true" />
               Modo Local / Demonstração
             </span>
@@ -112,7 +112,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             type="button"
             onClick={onLogout}
             aria-label="Sair do painel administrativo"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors border border-slate-700"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700"
           >
             <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Sair</span>
@@ -121,7 +121,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </div>
 
       {/* Navegação entre Abas do Admin */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-3">
         <div className="flex gap-2">
           <button
             type="button"
@@ -129,8 +129,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             aria-pressed={activeTab === 'events'}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'events'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-950/40'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                ? 'bg-[#086357] text-white shadow-lg shadow-[#086357]/20'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-[#086357] dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <Calendar className="w-4 h-4" aria-hidden="true" />
@@ -143,8 +143,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             aria-pressed={activeTab === 'news'}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               activeTab === 'news'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-950/40'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                ? 'bg-[#086357] text-white shadow-lg shadow-[#086357]/20'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-[#086357] dark:hover:text-white border border-slate-200 dark:border-slate-800'
             }`}
           >
             <Newspaper className="w-4 h-4" aria-hidden="true" />
@@ -156,7 +156,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <button
             type="button"
             onClick={handleCreateEvent}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md shadow-emerald-950/30"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#086357] hover:bg-[#009485] text-white transition-all shadow-md shadow-[#086357]/20"
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
             <span>Adicionar Novo Evento</span>
@@ -165,7 +165,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <button
             type="button"
             onClick={handleCreateNews}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md shadow-emerald-950/30"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#086357] hover:bg-[#009485] text-white transition-all shadow-md shadow-[#086357]/20"
           >
             <Plus className="w-4 h-4" aria-hidden="true" />
             <span>Publicar Nova Notícia</span>
@@ -177,13 +177,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {activeTab === 'events' && (
         <div className="space-y-3">
           {events.length === 0 ? (
-            <div className="text-center py-12 bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400 text-sm">
+            <div className="text-center py-12 bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-sm shadow-sm">
               Nenhum evento cadastrado no momento.
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-900 text-slate-400 uppercase font-semibold text-[10px] tracking-wider border-b border-slate-800">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 shadow-sm">
+              <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 uppercase font-semibold text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th scope="col" className="px-4 py-3">Data / Hora</th>
                     <th scope="col" className="px-4 py-3">Título</th>
@@ -192,21 +192,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <th scope="col" className="px-4 py-3 text-right">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                   {events.map((evt) => (
-                    <tr key={evt.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap font-mono font-medium text-indigo-300">
+                    <tr key={evt.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap font-mono font-medium text-[#086357] dark:text-[#5eead4]">
                         {evt.date} às {evt.time}
                       </td>
-                      <td className="px-4 py-3 font-semibold text-white max-w-xs truncate">
+                      <td className="px-4 py-3 font-semibold text-slate-900 dark:text-white max-w-xs truncate">
                         {evt.title}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 border border-slate-700">
+                        <span className="px-2 py-0.5 rounded text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                           {EVENT_TYPE_LABELS[evt.type]}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-400 max-w-xs truncate">
+                      <td className="px-4 py-3 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                         {evt.location}
                       </td>
                       <td className="px-4 py-3 text-right whitespace-nowrap space-x-2">
@@ -214,7 +214,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           type="button"
                           onClick={() => handleEditEvent(evt)}
                           aria-label={`Editar evento: ${evt.title}`}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-400 hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-[#086357] dark:hover:text-[#5eead4] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                           <Edit2 className="w-4 h-4" aria-hidden="true" />
                         </button>
@@ -222,7 +222,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           type="button"
                           onClick={() => handleDeleteEventClick(evt.id, evt.title)}
                           aria-label={`Excluir evento: ${evt.title}`}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" aria-hidden="true" />
                         </button>
@@ -240,13 +240,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {activeTab === 'news' && (
         <div className="space-y-3">
           {news.length === 0 ? (
-            <div className="text-center py-12 bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400 text-sm">
+            <div className="text-center py-12 bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-sm shadow-sm">
               Nenhuma notícia cadastrada no momento.
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-900 text-slate-400 uppercase font-semibold text-[10px] tracking-wider border-b border-slate-800">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 shadow-sm">
+              <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 uppercase font-semibold text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-800">
                   <tr>
                     <th scope="col" className="px-4 py-3">Data</th>
                     <th scope="col" className="px-4 py-3">Título</th>
@@ -255,21 +255,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <th scope="col" className="px-4 py-3 text-right">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                   {news.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap font-mono text-indigo-300">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap font-mono text-[#086357] dark:text-[#5eead4]">
                         {item.publishedAt}
                       </td>
-                      <td className="px-4 py-3 font-semibold text-white max-w-sm truncate">
+                      <td className="px-4 py-3 font-semibold text-slate-900 dark:text-white max-w-sm truncate">
                         {item.title}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 border border-slate-700">
+                        <span className="px-2 py-0.5 rounded text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                           {NEWS_CATEGORY_LABELS[item.category]}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
+                      <td className="px-4 py-3 text-slate-500 dark:text-slate-400 whitespace-nowrap">
                         {item.author || 'Pampulha'}
                       </td>
                       <td className="px-4 py-3 text-right whitespace-nowrap space-x-2">
@@ -277,7 +277,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           type="button"
                           onClick={() => handleEditNews(item)}
                           aria-label={`Editar notícia: ${item.title}`}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-400 hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-[#086357] dark:hover:text-[#5eead4] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                           <Edit2 className="w-4 h-4" aria-hidden="true" />
                         </button>
@@ -285,7 +285,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           type="button"
                           onClick={() => handleDeleteNewsClick(item.id, item.title)}
                           aria-label={`Excluir notícia: ${item.title}`}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" aria-hidden="true" />
                         </button>

@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-masthead: "Cinzel", "Playfair Display", Georgia, serif;
+  --font-editorial: "Playfair Display", Georgia, serif;
+
+  /* Paleta Oficial Nova Acrópole (https://www.acropolis.org/pt-br/) */
+  --color-acropolis-teal: #086357;
+  --color-acropolis-teal-light: #009485;
+  --color-acropolis-teal-dark: #05423a;
+  --color-acropolis-forest: #14261c;
+  --color-acropolis-gray: #4e5652;
+  --color-acropolis-mist: #d8d9db;
+  --color-acropolis-gold: #f39300;
+  --color-acropolis-indigo: #3e4095;
+  --color-acropolis-red: #ed3238;
+
+  /* Redirecionamento da escala primária para Verde Petróleo Institucional (#086357 / #009485) */
+  --color-indigo-50: #f0fdf9;
+  --color-indigo-100: #ccfbf1;
+  --color-indigo-200: #99f6e4;
+  --color-indigo-300: #5eead4;
+  --color-indigo-400: #009485;
+  --color-indigo-500: #009485;
+  --color-indigo-600: #086357;
+  --color-indigo-700: #064e44;
+  --color-indigo-800: #053b34;
+  --color-indigo-900: #14261c;
+  --color-indigo-950: #0b1714;
+}
+
 @source not "../.agents";
 @source not "../**/*.md";
 @source "../index.html";

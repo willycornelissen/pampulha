@@ -23,13 +23,13 @@ export const EventList: React.FC<EventListProps> = ({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-slate-800/40 border border-slate-700/40 animate-pulse"
+            className="flex flex-col md:flex-row gap-4 p-5 rounded-2xl bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/40 animate-pulse"
           >
-            <div className="w-full md:w-24 h-20 bg-slate-700/50 rounded-xl" />
+            <div className="w-full md:w-24 h-20 bg-slate-200 dark:bg-slate-700/50 rounded-xl" />
             <div className="flex-1 space-y-3">
-              <div className="w-28 h-5 bg-slate-700/50 rounded-full" />
-              <div className="w-3/4 h-6 bg-slate-700/50 rounded" />
-              <div className="w-full h-4 bg-slate-700/40 rounded" />
+              <div className="w-28 h-5 bg-slate-200 dark:bg-slate-700/50 rounded-full" />
+              <div className="w-3/4 h-6 bg-slate-200 dark:bg-slate-700/50 rounded" />
+              <div className="w-full h-4 bg-slate-200 dark:bg-slate-700/40 rounded" />
             </div>
           </div>
         ))}
@@ -39,13 +39,13 @@ export const EventList: React.FC<EventListProps> = ({
 
   if (events.length === 0) {
     return (
-      <div className="text-center py-16 px-6 bg-slate-900/40 rounded-2xl border border-slate-800 space-y-4">
-        <div className="mx-auto w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">
-          <SearchX className="w-6 h-6 text-slate-400" aria-hidden="true" />
+      <div className="text-center py-16 px-6 bg-white dark:bg-slate-900/40 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <div className="mx-auto w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+          <SearchX className="w-6 h-6" aria-hidden="true" />
         </div>
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-white">Nenhum evento encontrado</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">Nenhum evento encontrado</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
             Não encontramos atividades correspondentes aos filtros selecionados. Tente ajustar os termos de busca ou a categoria.
           </p>
         </div>
@@ -53,7 +53,7 @@ export const EventList: React.FC<EventListProps> = ({
           <button
             type="button"
             onClick={onClearFilters}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-md"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#086357] hover:bg-[#009485] text-white transition-all shadow-md shadow-[#086357]/20"
           >
             <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Ver Todos os Eventos</span>

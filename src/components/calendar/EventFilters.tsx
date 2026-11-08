@@ -34,12 +34,12 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
   };
 
   return (
-    <div className="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+    <div className="space-y-4 bg-white dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
       <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
         {/* Barra de Pesquisa */}
         <div className="relative flex-1">
           <Search
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-400 pointer-events-none"
             aria-hidden="true"
           />
           <input
@@ -48,7 +48,7 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
             onChange={handleSearchChange}
             placeholder="Buscar por tema, palestrante ou palavra-chave..."
             aria-label="Buscar eventos"
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#086357] focus:border-[#086357] transition-all"
           />
         </div>
 
@@ -59,8 +59,8 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
           aria-pressed={filters.onlyUpcoming}
           className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
             filters.onlyUpcoming
-              ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/60'
-              : 'bg-slate-800/80 text-slate-400 border-slate-700 hover:text-slate-200'
+              ? 'bg-[#086357]/10 dark:bg-[#086357]/30 text-[#086357] dark:text-[#5eead4] border-[#086357]/30 dark:border-[#086357]/60'
+              : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <CalendarCheck className="w-4 h-4" aria-hidden="true" />
@@ -70,8 +70,8 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
 
       {/* Pílulas de Categoria */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none" role="group" aria-label="Filtrar por categoria de evento">
-        <span className="text-xs text-slate-400 flex items-center gap-1.5 shrink-0 mr-1">
-          <Filter className="w-3.5 h-3.5 text-indigo-400" aria-hidden="true" />
+        <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 shrink-0 mr-1">
+          <Filter className="w-3.5 h-3.5 text-[#086357] dark:text-[#2dd4bf]" aria-hidden="true" />
           <span>Categorias:</span>
         </span>
 
@@ -85,8 +85,8 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
               aria-pressed={isActive}
               className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                  : 'bg-slate-800/70 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-700/60'
+                  ? 'bg-[#086357] text-white shadow-md shadow-[#086357]/20 font-semibold'
+                  : 'bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-[#086357] dark:hover:text-[#5eead4] hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60'
               }`}
             >
               {btn.label}
@@ -95,8 +95,8 @@ export const EventFilters: React.FC<EventFiltersProps> = ({
         })}
       </div>
 
-      <div className="text-xs text-slate-400 font-medium">
-        Exibindo <span className="text-indigo-400 font-bold">{totalResults}</span> {totalResults === 1 ? 'evento encontrado' : 'eventos encontrados'}.
+      <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+        Exibindo <span className="text-[#086357] dark:text-[#5eead4] font-bold">{totalResults}</span> {totalResults === 1 ? 'evento encontrado' : 'eventos encontrados'}.
       </div>
     </div>
   );
