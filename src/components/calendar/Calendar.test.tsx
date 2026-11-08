@@ -90,25 +90,16 @@ describe('Componentes do Calendário', () => {
       });
     });
 
-    it('permite alternar o filtro de próximos eventos', async () => {
-      const user = userEvent.setup();
-      const handleChange = vi.fn();
-
+    it('não renderiza o botão "Apenas Próximos"', () => {
       render(
         <EventFilters
           filters={initialFilters}
-          onChange={handleChange}
+          onChange={vi.fn()}
           totalResults={5}
         />
       );
 
-      const toggleBtn = screen.getByRole('button', { name: /apenas próximos/i });
-      await user.click(toggleBtn);
-
-      expect(handleChange).toHaveBeenCalledWith({
-        ...initialFilters,
-        onlyUpcoming: false,
-      });
+      expect(screen.queryByRole('button', { name: /apenas próximos/i })).not.toBeInTheDocument();
     });
   });
 

@@ -48,7 +48,7 @@ export const App: React.FC = () => {
   // Filtros de eventos
   const [eventFilters, setEventFilters] = useState<EventFilterOptions>({
     type: 'todos',
-    onlyUpcoming: true,
+    onlyUpcoming: false,
     searchQuery: '',
   });
 
