@@ -5,7 +5,6 @@ import {
   Lock,
   Sparkles,
   MapPin,
-  RefreshCw,
 } from 'lucide-react';
 import { PampulhaEvent, EventFilterOptions } from './types/event';
 import { NewsItem } from './types/news';
@@ -15,13 +14,11 @@ import {
   saveEvent,
   deleteEvent,
   filterEvents,
-  resetEventsToDefault,
 } from './services/eventsService';
 import {
   getNews,
   saveNews,
   deleteNews,
-  resetNewsToDefault,
 } from './services/newsService';
 import {
   getCurrentUser,
@@ -113,14 +110,6 @@ export const App: React.FC = () => {
     await logoutUser();
     setCurrentUser(null);
     setActiveTab('calendar');
-  };
-
-  const handleResetDemoData = async () => {
-    if (window.confirm('Deseja restaurar os eventos e notícias padrão de demonstração?')) {
-      resetEventsToDefault();
-      resetNewsToDefault();
-      await loadData();
-    }
   };
 
   const filteredEvents = filterEvents(events, eventFilters);
@@ -363,15 +352,6 @@ export const App: React.FC = () => {
                   ? 'Sincronizado em tempo real com Google Firebase Firestore.'
                   : 'Operando em Modo de Demonstração / LocalStorage (Vite SPA no GitHub Pages).'}
               </p>
-
-              <button
-                type="button"
-                onClick={handleResetDemoData}
-                className="inline-flex items-center gap-1.5 text-[11px] text-[#f39300] hover:text-white transition-colors"
-              >
-                <RefreshCw className="w-3 h-3" aria-hidden="true" />
-                <span>Restaurar dados de exemplo</span>
-              </button>
             </div>
           </div>
 
