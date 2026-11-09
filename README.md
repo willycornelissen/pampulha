@@ -26,7 +26,7 @@ O projeto permite a consulta pública e imediata do **calendário de atividades*
 
 4. **Modo Híbrido & Resiliência (Zero Config para Demonstração)**:
    - Se as variáveis `VITE_FIREBASE_*` não estiverem configuradas, a aplicação opera automaticamente com persistência em `localStorage` e dados iniciais de demonstração, permitindo testes locais e preview sem dependência de credenciais externas.
-   - Botão no rodapé para restaurar dados de exemplo com 1 clique.
+   - Sincronização automática com o Cloud Firestore quando as credenciais da nuvem estiverem conectadas.
 
 ---
 
@@ -78,6 +78,24 @@ npm run test:coverage
 # Compilar para produção
 npm run build
 ```
+
+---
+
+## 📊 Métricas de Desenvolvimento com IA
+
+Este projeto foi construído e refinado através de desenvolvimento em par (*pair programming*) com o assistente inteligente **Antigravity (Google DeepMind)**.
+
+| Métrica | Valor |
+| :--- | :--- |
+| **Tempo Total Decorrido** | ~29 horas (de 07/11 às 17h36 a 08/11 às 22h45) |
+| **Tempo Efetivo de Sessões** | ~14 horas e 20 minutos |
+| **Comandos do Usuário** | 38 solicitações |
+| **Operações do Agente** | 706 operações automatizadas |
+| **Total de Tokens Processados** | ~95,47 milhões (90,59M em *prompt cache*) |
+| **Tokens de Saída (Código gerado)** | 401.753 tokens |
+| **Testes Unitários Automatizados** | 59 testes (100% aprovados) |
+
+Para ver o relatório completo com a linha do tempo detalhada e a divisão por etapas, consulte [`docs/METRICAS_DESENVOLVIMENTO.md`](./docs/METRICAS_DESENVOLVIMENTO.md).
 
 ---
 
