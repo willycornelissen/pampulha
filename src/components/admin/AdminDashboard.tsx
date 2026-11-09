@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Calendar,
   Newspaper,
@@ -10,11 +10,16 @@ import {
   Download,
   Upload,
   Info,
+  CloudUpload,
+  AlertTriangle,
+  CheckCircle2,
+  Loader2,
 } from 'lucide-react';
+import { collection, doc, setDoc, getDocs, query, limit } from 'firebase/firestore';
 import { AuthUser } from '../../types/auth';
 import { PampulhaEvent, EVENT_TYPE_LABELS } from '../../types/event';
 import { NewsItem, NEWS_CATEGORY_LABELS } from '../../types/news';
-import { isFirebaseConfigured } from '../../services/firebase';
+import { isFirebaseConfigured, getFirestoreDb } from '../../services/firebase';
 import { EventFormModal } from './EventFormModal';
 import { NewsFormModal } from './NewsFormModal';
 
@@ -46,7 +51,75 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
   const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
 
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [firestorePermissionDenied, setFirestorePermissionDenied] = useState(false);
+
   const isConnectedToFirebase = isFirebaseConfigured();
+
+  useEffect(() => {
+    if (!isConnectedToFirebase) return;
+
+    const testFirestoreAccess = async () => {
+      const db = getFirestoreDb();
+      if (!db) return;
+      try {
+        const eventsRef = collection(db, 'events');
+        await getDocs(query(eventsRef, limit(1)));
+        setFirestorePermissionDenied(false);
+      } catch (err: any) {
+        if (err?.code === 'permission-denied' || String(err?.message || '').toLowerCase().includes('permission')) {
+          setFirestorePermissionDenied(true);
+        }
+      }
+    };
+
+    testFirestoreAccess();
+  }, [isConnectedToFirebase]);
+
+  const handlePublishToFirebase = async () => {
+    const db = getFirestoreDb();
+    if (!db) {
+      setSyncFeedback({
+        type: 'error',
+        message: 'Firebase não está configurado nesta instalação.',
+      });
+      return;
+    }
+
+    setIsSyncing(true);
+    setSyncFeedback(null);
+
+    try {
+      for (const evt of events) {
+        await setDoc(doc(db, 'events', evt.id), evt);
+      }
+      for (const item of news) {
+        await setDoc(doc(db, 'news', item.id), item);
+      }
+      setFirestorePermissionDenied(false);
+      setSyncFeedback({
+        type: 'success',
+        message: 'Sucesso! Todos os eventos e notícias deste computador foram publicados no Firebase. Agora qualquer celular ou visitante verá este mesmo conteúdo!',
+      });
+    } catch (err: any) {
+      console.error('Erro ao sincronizar com Firestore:', err);
+      if (err?.code === 'permission-denied' || String(err?.message || '').toLowerCase().includes('permission')) {
+        setFirestorePermissionDenied(true);
+        setSyncFeedback({
+          type: 'error',
+          message: 'Permissão negada (PERMISSION_DENIED): as Regras de Segurança do Firestore no Console do Firebase estão bloqueando a gravação.',
+        });
+      } else {
+        setSyncFeedback({
+          type: 'error',
+          message: `Falha ao enviar dados: ${err.message || 'Erro desconhecido'}`,
+        });
+      }
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const handleCreateEvent = () => {
     setEditingEvent(null);
@@ -196,6 +269,71 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               />
             </label>
           </div>
+        </div>
+      )}
+
+      {/* Alerta de Permissão do Firebase Firestore */}
+      {isConnectedToFirebase && firestorePermissionDenied && (
+        <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+          <div>
+            <div className="flex items-center gap-1.5 font-bold text-rose-900 dark:text-rose-200">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400" />
+              <span>Regras do Firebase bloqueando acesso (PERMISSION_DENIED)</span>
+            </div>
+            <p className="text-rose-800 dark:text-rose-300/90 mt-1">
+              O Firebase está conectado, mas as <strong>Regras do Firestore</strong> no Console do Firebase estão bloqueando a leitura/gravação. Por esse motivo, os dados salvos só aparecem neste computador e não no celular.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handlePublishToFirebase}
+            disabled={isSyncing}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white shadow-sm cursor-pointer transition-colors shrink-0"
+          >
+            {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CloudUpload className="w-3.5 h-3.5" />}
+            <span>{isSyncing ? 'Testando gravação...' : 'Tentar Enviar para o Firebase'}</span>
+          </button>
+        </div>
+      )}
+
+      {/* Sincronização em Nuvem quando Firebase está Ativo */}
+      {isConnectedToFirebase && !firestorePermissionDenied && (
+        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div>
+            <div className="flex items-center gap-1.5 font-bold text-emerald-900 dark:text-emerald-200">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+              <span>Banco em Nuvem Ativo</span>
+            </div>
+            <p className="text-emerald-800 dark:text-emerald-300/90 mt-1">
+              Envie todos os eventos e notícias cadastrados neste computador diretamente para o Firebase para que apareçam instantaneamente no celular.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handlePublishToFirebase}
+            disabled={isSyncing}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#086357] hover:bg-[#009485] disabled:opacity-50 text-white shadow-sm cursor-pointer transition-colors shrink-0"
+          >
+            {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CloudUpload className="w-3.5 h-3.5" />}
+            <span>{isSyncing ? 'Sincronizando...' : 'Publicar Dados no Firebase'}</span>
+          </button>
+        </div>
+      )}
+
+      {syncFeedback && (
+        <div
+          className={`p-3 rounded-xl border text-xs flex items-center gap-2 ${
+            syncFeedback.type === 'success'
+              ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+              : 'bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
+          }`}
+        >
+          {syncFeedback.type === 'success' ? (
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+          ) : (
+            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400" />
+          )}
+          <span>{syncFeedback.message}</span>
         </div>
       )}
 
