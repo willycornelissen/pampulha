@@ -55,7 +55,21 @@ export const getEvents = async (): Promise<PampulhaEvent[]> => {
       snapshot.forEach((d) => {
         events.push({ id: d.id, ...d.data() } as PampulhaEvent);
       });
-      return sortEventsChronologically(events);
+
+      // Se o Firestore contiver documentos, utiliza-os
+      if (events.length > 0) {
+        return sortEventsChronologically(events);
+      }
+
+      // Se o Firestore estiver vazio (ex.: logo após liberar as Regras),
+      // migra os dados salvos localmente neste computador diretamente para o Firestore
+      const localEvents = getLocalEvents();
+      if (localEvents.length > 0) {
+        for (const evt of localEvents) {
+          setDoc(doc(db, 'events', evt.id), evt).catch(console.warn);
+        }
+        return sortEventsChronologically(localEvents);
+      }
     } catch (err) {
       console.warn('Erro ao consultar Firestore, usando armazenamento local:', err);
     }

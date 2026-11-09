@@ -51,7 +51,21 @@ export const getNews = async (): Promise<NewsItem[]> => {
       snapshot.forEach((d) => {
         items.push({ id: d.id, ...d.data() } as NewsItem);
       });
-      return sortNewsByDateDesc(items);
+
+      // Se o Firestore contiver documentos, utiliza-os
+      if (items.length > 0) {
+        return sortNewsByDateDesc(items);
+      }
+
+      // Se o Firestore estiver vazio (ex.: logo após liberar as Regras),
+      // migra os dados salvos localmente neste computador diretamente para o Firestore
+      const localNews = getLocalNews();
+      if (localNews.length > 0) {
+        for (const item of localNews) {
+          setDoc(doc(db, 'news', item.id), item).catch(console.warn);
+        }
+        return sortNewsByDateDesc(localNews);
+      }
     } catch (err) {
       console.warn('Erro ao consultar Firestore, usando armazenamento local de notícias:', err);
     }

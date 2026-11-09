@@ -91,17 +91,36 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     setSyncFeedback(null);
 
     try {
-      for (const evt of events) {
+      let eventsToUpload = events;
+      if (eventsToUpload.length === 0) {
+        try {
+          const raw = localStorage.getItem('pampulha_events');
+          if (raw) eventsToUpload = JSON.parse(raw);
+        } catch {}
+      }
+
+      let newsToUpload = news;
+      if (newsToUpload.length === 0) {
+        try {
+          const raw = localStorage.getItem('pampulha_news');
+          if (raw) newsToUpload = JSON.parse(raw);
+        } catch {}
+      }
+
+      for (const evt of eventsToUpload) {
         await setDoc(doc(db, 'events', evt.id), evt);
       }
-      for (const item of news) {
+      for (const item of newsToUpload) {
         await setDoc(doc(db, 'news', item.id), item);
       }
       setFirestorePermissionDenied(false);
       setSyncFeedback({
         type: 'success',
-        message: 'Sucesso! Todos os eventos e notícias deste computador foram publicados no Firebase. Agora qualquer celular ou visitante verá este mesmo conteúdo!',
+        message: `Sucesso! ${eventsToUpload.length} eventos e ${newsToUpload.length} notícias foram publicados no Firebase. Recarregando página...`,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (err: any) {
       console.error('Erro ao sincronizar com Firestore:', err);
       if (err?.code === 'permission-denied' || String(err?.message || '').toLowerCase().includes('permission')) {
