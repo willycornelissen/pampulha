@@ -119,7 +119,8 @@ export const App: React.FC = () => {
       {/* Topo / Header no Estilo Oficial Nova Acrópole (acropolis.org/pt-br) */}
       <header className="sticky top-0 z-40 bg-[#086357] text-white shadow-md border-b border-[#064e44] transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          {/* Logo e Nome da Sede: visível apenas na versão do computador (telas md ou maiores) */}
+          <div className="hidden md:flex items-center gap-3">
             <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-white p-1 flex items-center justify-center shadow-md shrink-0 border border-white/20">
               <img
                 src="https://acropole.org.br/wp-content/uploads/2026/02/NA_logo_escola_vetor.png"
@@ -140,7 +141,7 @@ export const App: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-2 sm:gap-3">
             {/* Navegação Principal */}
             <nav aria-label="Navegação Principal" className="flex items-center gap-1.5 sm:gap-2">
               <button
