@@ -291,7 +291,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       )}
 
-      {/* Alerta de Permissão do Firebase Firestore */}
+      {/* Alerta de Permissão do Firebase Firestore (apenas se houver bloqueio de regras) */}
       {isConnectedToFirebase && firestorePermissionDenied && (
         <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
           <div>
@@ -300,7 +300,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <span>Regras do Firebase bloqueando acesso (PERMISSION_DENIED)</span>
             </div>
             <p className="text-rose-800 dark:text-rose-300/90 mt-1">
-              O Firebase está conectado, mas as <strong>Regras do Firestore</strong> no Console do Firebase estão bloqueando a leitura/gravação. Por esse motivo, os dados salvos só aparecem neste computador e não no celular.
+              O Firebase está conectado, mas as <strong>Regras do Firestore</strong> no Console do Firebase estão bloqueando a leitura/gravação.
             </p>
           </div>
           <button
@@ -311,30 +311,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           >
             {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CloudUpload className="w-3.5 h-3.5" />}
             <span>{isSyncing ? 'Testando gravação...' : 'Tentar Enviar para o Firebase'}</span>
-          </button>
-        </div>
-      )}
-
-      {/* Sincronização em Nuvem quando Firebase está Ativo */}
-      {isConnectedToFirebase && !firestorePermissionDenied && (
-        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-          <div>
-            <div className="flex items-center gap-1.5 font-bold text-emerald-900 dark:text-emerald-200">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-              <span>Banco em Nuvem Ativo</span>
-            </div>
-            <p className="text-emerald-800 dark:text-emerald-300/90 mt-1">
-              Envie todos os eventos e notícias cadastrados neste computador diretamente para o Firebase para que apareçam instantaneamente no celular.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={handlePublishToFirebase}
-            disabled={isSyncing}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#086357] hover:bg-[#009485] disabled:opacity-50 text-white shadow-sm cursor-pointer transition-colors shrink-0"
-          >
-            {isSyncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CloudUpload className="w-3.5 h-3.5" />}
-            <span>{isSyncing ? 'Sincronizando...' : 'Publicar Dados no Firebase'}</span>
           </button>
         </div>
       )}
