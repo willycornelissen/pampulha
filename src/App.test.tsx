@@ -19,7 +19,7 @@ describe('App Principal - Pampulha', () => {
 
     expect(screen.getByRole('heading', { level: 1, name: /nova acrópole pampulha/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: /diário da pampulha/i })).toBeInTheDocument();
-    expect(screen.getByAltText(/logotipo nova acrópole/i)).toBeInTheDocument();
+    expect(screen.queryByAltText(/logotipo nova acrópole/i)).not.toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 2, name: /calendário de atividades/i })).toBeInTheDocument();

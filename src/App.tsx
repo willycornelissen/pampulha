@@ -119,26 +119,14 @@ export const App: React.FC = () => {
       {/* Topo / Header no Estilo Oficial Nova Acrópole (acropolis.org/pt-br) */}
       <header className="sticky top-0 z-40 bg-[#086357] text-white shadow-md border-b border-[#064e44] transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-          {/* Logo e Nome da Sede: visível apenas na versão do computador (telas md ou maiores) */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-white p-1 flex items-center justify-center shadow-md shrink-0 border border-white/20">
-              <img
-                src="https://acropole.org.br/wp-content/uploads/2026/02/NA_logo_escola_vetor.png"
-                alt="Logotipo Nova Acrópole"
-                className="h-full w-full object-contain"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = './logo.png';
-                }}
-              />
-            </div>
-            <div>
-              <h1 className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
-                Nova Acrópole Pampulha
-              </h1>
-              <p className="text-[11px] text-white/85 tracking-wide font-medium">
-                Filosofia &bull; Cultura &bull; Voluntariado
-              </p>
-            </div>
+          {/* Nome da Sede: visível apenas na versão do computador (telas md ou maiores) */}
+          <div className="hidden md:block">
+            <h1 className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
+              Nova Acrópole Pampulha
+            </h1>
+            <p className="text-[11px] text-white/85 tracking-wide font-medium">
+              Filosofia &bull; Cultura &bull; Voluntariado
+            </p>
           </div>
 
           <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-2 sm:gap-3">
