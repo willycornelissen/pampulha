@@ -101,20 +101,40 @@ export const saveNews = async (
   const db = getFirestoreDb();
 
   const id = newsData.id || `news-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-  const fullItem: NewsItem = {
+  const rawItem: Record<string, any> = {
     ...newsData,
     id,
     createdAt: newsData.createdAt || now,
     updatedAt: now,
   };
 
+  // Remover quaisquer campos com valor undefined para total compatibilidade com o Firestore
+  const fullItem = Object.entries(rawItem).reduce<Record<string, any>>((acc, [key, value]) => {
+    if (value !== undefined) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {}) as NewsItem;
+
   if (db) {
     try {
       const ref = doc(db, 'news', id);
       await setDoc(ref, fullItem);
+
+      // Atualiza também o cache local para manter consistência offline
+      const items = getLocalNews();
+      const index = items.findIndex((n) => n.id === id);
+      if (index >= 0) {
+        items[index] = fullItem;
+      } else {
+        items.push(fullItem);
+      }
+      setLocalNews(items);
+
       return fullItem;
     } catch (err) {
-      console.warn('Erro ao salvar notícia no Firestore, salvando localmente:', err);
+      console.error('Erro ao salvar notícia no Firestore:', err);
+      throw err;
     }
   }
 
@@ -138,9 +158,13 @@ export const deleteNews = async (id: string): Promise<void> => {
     try {
       const ref = doc(db, 'news', id);
       await deleteDoc(ref);
+      const items = getLocalNews();
+      const filtered = items.filter((n) => n.id !== id);
+      setLocalNews(filtered);
       return;
     } catch (err) {
-      console.warn('Erro ao deletar notícia no Firestore, deletando localmente:', err);
+      console.error('Erro ao deletar notícia no Firestore:', err);
+      throw err;
     }
   }
 

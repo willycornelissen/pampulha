@@ -80,7 +80,7 @@ describe('Componentes Administrativos', () => {
   });
 
   describe('EventFormModal', () => {
-    it('permite cadastrar um novo evento preenchendo os campos', async () => {
+    it('permite cadastrar um novo evento preenchendo os campos obrigatórios e sem link de inscrição', async () => {
       const user = userEvent.setup();
       const handleSave = vi.fn();
       const handleClose = vi.fn();
@@ -100,15 +100,51 @@ describe('Componentes Administrativos', () => {
       await user.clear(titleInput);
       await user.type(titleInput, 'Palestra Especial de Filosofia');
 
+      const descInput = screen.getByLabelText(/descrição \/ resumo/i);
+      await user.clear(descInput);
+      await user.type(descInput, 'Introdução aos clássicos da filosofia');
+
+      // Link de inscrição é opcional e não preenchido
+      const linkInput = screen.getByLabelText(/link de inscrição/i);
+      expect(linkInput).toHaveValue('');
+
       const submitBtn = screen.getByRole('button', { name: /salvar evento/i });
       await user.click(submitBtn);
 
       expect(handleSave).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Palestra Especial de Filosofia',
+          description: 'Introdução aos clássicos da filosofia',
+          location: 'Nova Acrópole Pampulha - Av. Portugal, 1234',
         })
       );
       expect(handleClose).toHaveBeenCalled();
+    });
+
+    it('exibe erro de validação quando campos obrigatórios não são preenchidos', async () => {
+      const user = userEvent.setup();
+      const handleSave = vi.fn();
+      const handleClose = vi.fn();
+
+      render(
+        <EventFormModal
+          isOpen={true}
+          event={null}
+          onClose={handleClose}
+          onSave={handleSave}
+        />
+      );
+
+      // Limpar título
+      const titleInput = screen.getByLabelText(/título da atividade/i);
+      await user.clear(titleInput);
+
+      const submitBtn = screen.getByRole('button', { name: /salvar evento/i });
+      await user.click(submitBtn);
+
+      expect(screen.getByText(/campos obrigatórios/i)).toBeInTheDocument();
+      expect(handleSave).not.toHaveBeenCalled();
+      expect(handleClose).not.toHaveBeenCalled();
     });
 
     it('carrega dados existentes para edição', async () => {

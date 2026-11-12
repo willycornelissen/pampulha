@@ -105,20 +105,40 @@ export const saveEvent = async (
   const db = getFirestoreDb();
 
   const id = eventData.id || `evt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-  const fullEvent: PampulhaEvent = {
+  const rawEvent: Record<string, any> = {
     ...eventData,
     id,
     createdAt: eventData.createdAt || now,
     updatedAt: now,
   };
 
+  // Remover quaisquer campos com valor undefined para total compatibilidade com o Firestore
+  const fullEvent = Object.entries(rawEvent).reduce<Record<string, any>>((acc, [key, value]) => {
+    if (value !== undefined) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {}) as PampulhaEvent;
+
   if (db) {
     try {
       const ref = doc(db, 'events', id);
       await setDoc(ref, fullEvent);
+
+      // Atualiza também o cache local para manter consistência offline
+      const events = getLocalEvents();
+      const index = events.findIndex((e) => e.id === id);
+      if (index >= 0) {
+        events[index] = fullEvent;
+      } else {
+        events.push(fullEvent);
+      }
+      setLocalEvents(events);
+
       return fullEvent;
     } catch (err) {
-      console.warn('Erro ao salvar no Firestore, salvando localmente:', err);
+      console.error('Erro ao salvar no Firestore:', err);
+      throw err;
     }
   }
 
@@ -142,9 +162,13 @@ export const deleteEvent = async (id: string): Promise<void> => {
     try {
       const ref = doc(db, 'events', id);
       await deleteDoc(ref);
+      const events = getLocalEvents();
+      const filtered = events.filter((e) => e.id !== id);
+      setLocalEvents(filtered);
       return;
     } catch (err) {
-      console.warn('Erro ao deletar no Firestore, deletando localmente:', err);
+      console.error('Erro ao deletar no Firestore:', err);
+      throw err;
     }
   }
 

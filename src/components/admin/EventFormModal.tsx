@@ -58,25 +58,39 @@ export const EventFormModal: React.FC<EventFormModalProps> = ({
     e.preventDefault();
     setError(null);
 
-    if (!title.trim() || !date.trim() || !time.trim()) {
-      setError('Título, data e horário são campos obrigatórios.');
+    const trimmedTitle = title.trim();
+    const trimmedDate = date.trim();
+    const trimmedTime = time.trim();
+    const trimmedLocation = location.trim();
+    const trimmedDescription = description.trim();
+
+    if (!trimmedTitle || !trimmedDate || !trimmedTime || !trimmedLocation || !trimmedDescription) {
+      setError('Título da atividade, data, horário, localização e descrição são campos obrigatórios.');
       return;
     }
 
     setLoading(true);
     try {
-      await onSave({
+      const eventPayload: Partial<PampulhaEvent> & Omit<PampulhaEvent, 'id' | 'createdAt' | 'updatedAt'> = {
         id: event?.id,
-        title: title.trim(),
-        description: description.trim(),
+        title: trimmedTitle,
+        description: trimmedDescription,
         type,
-        date,
-        time,
-        location: location.trim(),
-        instructor: instructor.trim() || undefined,
-        registrationUrl: registrationUrl.trim() || undefined,
+        date: trimmedDate,
+        time: trimmedTime,
+        location: trimmedLocation,
         isFree,
-      });
+      };
+
+      if (instructor.trim()) {
+        eventPayload.instructor = instructor.trim();
+      }
+
+      if (registrationUrl.trim()) {
+        eventPayload.registrationUrl = registrationUrl.trim();
+      }
+
+      await onSave(eventPayload);
       onClose();
     } catch (err: any) {
       setError(err.message || 'Falha ao salvar evento.');
@@ -111,7 +125,7 @@ export const EventFormModal: React.FC<EventFormModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="flex-1 overflow-y-auto p-6 space-y-4">
           {error && (
             <div className="flex items-center gap-2 p-3 rounded-xl bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-300 text-xs font-medium">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600 dark:text-red-400" aria-hidden="true" />
@@ -215,11 +229,12 @@ export const EventFormModal: React.FC<EventFormModalProps> = ({
 
           <div className="space-y-1.5">
             <label htmlFor="event-desc-input" className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-              Descrição / Resumo
+              Descrição / Resumo *
             </label>
             <textarea
               id="event-desc-input"
               rows={3}
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Resumo do conteúdo programático da atividade..."

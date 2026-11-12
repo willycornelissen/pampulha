@@ -93,6 +93,31 @@ describe('eventsService', () => {
     expect(updated.title).toBe('Título Atualizado');
   });
 
+  it('salva evento sem registrationUrl e remove quaisquer propriedades undefined', async () => {
+    const eventWithoutLink = {
+      title: 'Evento Sem Link de Inscrição',
+      description: 'Descrição completa',
+      type: 'palestra' as const,
+      date: '2026-12-10',
+      time: '20:00',
+      location: 'Sede Pampulha',
+      instructor: undefined,
+      registrationUrl: undefined,
+      isFree: true,
+    };
+
+    const saved = await saveEvent(eventWithoutLink);
+    expect(saved.id).toBeDefined();
+    expect(saved.title).toBe(eventWithoutLink.title);
+    expect(saved.registrationUrl).toBeUndefined();
+    expect(Object.prototype.hasOwnProperty.call(saved, 'registrationUrl')).toBe(false);
+
+    const fetched = await getEventById(saved.id);
+    expect(fetched).not.toBeNull();
+    expect(fetched?.title).toBe(eventWithoutLink.title);
+    expect(fetched?.registrationUrl).toBeUndefined();
+  });
+
   it('permite deletar um evento', async () => {
     const events = await getEvents();
     const toDelete = events[0]!;
