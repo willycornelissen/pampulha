@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <filter id="fav-shadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#042c26" flood-opacity="0.30" />
+    </filter>
+  </defs>
+
+  <!-- Standalone Newspaper vector favicon -->
+  <g filter="url(#fav-shadow)">
+    
+    <!-- Back page layer (depth effect) -->
+    <rect x="63.0" y="24.0" width="399.0" height="441.0" rx="14.700000000000001" 
+          fill="#e4ece8" stroke="#086357" stroke-width="6.3" stroke-opacity="0.6" />
+    <line x1="92.4" y1="35.25" x2="428.40000000000003" y2="35.25" 
+          stroke="#086357" stroke-width="5.04" stroke-linecap="round" stroke-opacity="0.4" />
+
+    <!-- Main front newspaper page -->
+    <rect x="42" y="42" width="420" height="450" rx="16.8" 
+          fill="#ffffff" stroke="#086357" stroke-width="8.4" />
+
+    <!-- Newspaper Content -->
+    <g transform="translate(42, 42)">
+      <!-- Top Linotype Dual Rules -->
+      <line x1="21.0" y1="20.25" x2="399.0" y2="20.25" 
+            stroke="#086357" stroke-width="5.88" stroke-linecap="round" />
+      <line x1="21.0" y1="27.9" x2="399.0" y2="27.9" 
+            stroke="#086357" stroke-width="2.94" stroke-linecap="round" />
+
+      <!-- Sub-label: NOVA ACRÓPOLE PAMPULHA -->
+      <text x="210.0" y="47.25" 
+            font-family="'Cinzel', 'Playfair Display', Georgia, serif" 
+            font-size="15.959999999999999" font-weight="700" fill="#f39300" 
+            text-anchor="middle" letter-spacing="3">◆ NOVA ACRÓPOLE ◆</text>
+
+      <!-- Main Masthead Title: DIÁRIO -->
+      <text x="210.0" y="83.25" 
+            font-family="'Cinzel', 'Playfair Display', Georgia, serif" 
+            font-size="40.32" font-weight="900" fill="#086357" 
+            text-anchor="middle" letter-spacing="5">DIÁRIO</text>
+
+      <!-- Bottom Linotype Rule -->
+      <line x1="21.0" y1="94.5" x2="399.0" y2="94.5" 
+            stroke="#086357" stroke-width="4.2" stroke-linecap="round" />
+
+      <!-- Meta Bar: Date & City -->
+      <rect x="21.0" y="101.25" width="378.0" height="18.900000000000002" rx="4.2" fill="#e8f3ef" />
+      <text x="33.6" y="114.3" font-family="sans-serif" font-size="11.34" font-weight="700" fill="#086357">PAMPULHA • BH</text>
+      <text x="386.40000000000003" y="114.3" font-family="sans-serif" font-size="11.34" font-weight="700" fill="#086357" text-anchor="end">EDIÇÃO DIGITAL</text>
+
+      <!-- Main Lead Article Section -->
+      <!-- Left side: Featured Image / Acropolis Emblem Box -->
+      <rect x="21.0" y="130.5" width="168.0" height="130.5" rx="10.5" fill="#086357" />
+      
+      <!-- Inside image: Golden Acropolis / Classical Temple -->
+      <!-- Golden sun / star in sky -->
+      <circle cx="155.4" cy="146.25" r="10.08" fill="#f39300" />
+      <!-- Temple pediment (triangle roof) -->
+      <polygon points="105.0,144.0 42.0,164.25 168.0,164.25" fill="#f39300" />
+      <!-- Architrave beam -->
+      <rect x="37.8" y="164.25" width="134.4" height="7.2" rx="1" fill="#ffffff" />
+      <!-- 4 Columns -->
+      <rect x="50.4" y="173.25" width="14.700000000000001" height="51.75" rx="1" fill="#ffffff" />
+      <rect x="79.8" y="173.25" width="14.700000000000001" height="51.75" rx="1" fill="#ffffff" />
+      <rect x="115.50000000000001" y="173.25" width="14.700000000000001" height="51.75" rx="1" fill="#ffffff" />
+      <rect x="144.89999999999998" y="173.25" width="14.700000000000001" height="51.75" rx="1" fill="#ffffff" />
+      <!-- Base plinth -->
+      <rect x="37.8" y="227.25" width="134.4" height="9.0" rx="1" fill="#ffffff" />
+
+      <!-- Right side: Headline & Article Summary -->
+      <!-- Heavy bold headline bars -->
+      <rect x="205.79999999999998" y="132.75" width="193.20000000000002" height="12.6" rx="5.4" fill="#14261c" />
+      <rect x="205.79999999999998" y="152.10000000000002" width="159.6" height="12.6" rx="5.4" fill="#14261c" />
+      
+      <!-- Sub-headline bar in teal -->
+      <rect x="205.79999999999998" y="171.9" width="184.8" height="8.1" rx="4.05" fill="#086357" />
+
+      <!-- Summary lines -->
+      <rect x="205.79999999999998" y="188.1" width="193.20000000000002" height="6.3" rx="3.15" fill="#4a685f" />
+      <rect x="205.79999999999998" y="199.8" width="176.4" height="6.3" rx="3.15" fill="#4a685f" />
+      <rect x="205.79999999999998" y="211.5" width="189.0" height="6.3" rx="3.15" fill="#4a685f" />
+      <rect x="205.79999999999998" y="223.2" width="163.8" height="6.3" rx="3.15" fill="#4a685f" />
+      <rect x="205.79999999999998" y="234.9" width="184.8" height="6.3" rx="3.15" fill="#4a685f" />
+      <rect x="205.79999999999998" y="246.60000000000002" width="142.8" height="6.3" rx="3.15" fill="#4a685f" />
+
+      <!-- Mid-page divider rule -->
+      <line x1="21.0" y1="270.0" x2="399.0" y2="270.0" 
+            stroke="#cbdad4" stroke-width="3.36" stroke-linecap="round" stroke-dasharray="7.56 7.56" />
+
+      <!-- Bottom Half: 2 Story Columns -->
+      <!-- Column 1 (Left) -->
+      <rect x="21.0" y="285.75" width="168.0" height="10.8" rx="4.5" fill="#14261c" />
+      <rect x="21.0" y="303.75" width="159.6" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="315.9" width="172.2" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="328.05" width="155.4" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="340.2" width="168.0" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="352.35" width="147.0" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="364.5" width="163.8" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="21.0" y="376.65" width="138.6" height="5.85" rx="2.7" fill="#4a685f" />
+
+      <!-- Vertical column divider -->
+      <line x1="201.6" y1="281.25" x2="201.6" y2="396.0" 
+            stroke="#d5e3dd" stroke-width="2.52" />
+
+      <!-- Column 2 (Right) -->
+      <rect x="218.4" y="285.75" width="159.6" height="10.8" rx="4.5" fill="#14261c" />
+      <rect x="218.4" y="303.75" width="155.4" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="315.9" width="172.2" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="328.05" width="151.2" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="340.2" width="163.8" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="352.35" width="147.0" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="364.5" width="159.6" height="5.85" rx="2.7" fill="#4a685f" />
+      <rect x="218.4" y="376.65" width="117.60000000000001" height="5.85" rx="2.7" fill="#4a685f" />
+
+      <!-- Folded bottom-right page corner (dog-ear fold) -->
+      <path d="M 369.6 450 L 420 405.0 L 420 450 Z" fill="#cfded8" />
+      <path d="M 369.6 450 L 420 405.0 L 369.6 405.0 Z" 
+            fill="#a3beb4" stroke="#086357" stroke-width="4.2" />
+    </g>
+
+  </g>
+</svg>
